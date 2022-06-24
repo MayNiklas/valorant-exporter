@@ -42,6 +42,43 @@ go run .
 go build
 ```
 
+## How to install
+
+### NixOS
+
+1. Add this repository to your `flake.nix`:
+
+```nix
+{
+  inputs.valorant-exporter = {
+    url = "github:MayNiklas/valorant-exporter";
+    inputs = { nixpkgs.follows = "nixpkgs"; };
+  };
+}
+```
+
+2. Enable the service & the prometheus scraper in your configuration:
+
+```nix
+{ valorant-exporter, ... }: {
+
+  imports = [ valorant-exporter.nixosModules.default ];
+
+  services.shelly-exporter = {
+    enable = true;
+    port = "1091";
+    listen = "localhost";
+    user = "valorant-exporter";
+    group = "valorant-exporter";
+
+    configure-prometheus = true;
+    targets = [
+      "mayniklas/niki"
+    ];
+  };
+}
+```
+
 ### Libaries used
 
 * https://github.com/prometheus/client_golang
