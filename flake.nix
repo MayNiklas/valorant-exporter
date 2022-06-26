@@ -80,7 +80,7 @@
             services.prometheus = mkIf cfg.configure-prometheus {
               scrapeConfigs = [{
                 job_name = "valorant";
-                scrape_interval = "15m";
+                scrape_interval = "5m";
                 metrics_path = "/probe";
                 static_configs = [{ targets = cfg.targets; }];
                 relabel_configs = [
