@@ -124,7 +124,7 @@
             version = "1.0.0";
             src = self;
             vendorSha256 =
-              "sha256-WtO+3uH6H2um6pcdqhU/Yaw6HDNkz1XGjslGQphyMiA=";
+              "sha256-18sujNtNivEsgLyusu5TJLNaAV2paDCJnaXqJ/n+juM=";
             installCheckPhase = ''
               runHook preCheck
               $out/bin/valorant-exporter -h

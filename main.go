@@ -85,6 +85,7 @@ func probeHandler(w http.ResponseWriter, r *http.Request) {
 	var data ValorantData
 	if err := data.Fetch(target); err != nil {
 		// TODO better error handling
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		log.Println(err)
 		return
 	}
