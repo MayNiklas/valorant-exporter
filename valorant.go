@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 )
@@ -35,6 +36,29 @@ func (s *ValorantData) Fetch(address string) error {
 
 	if err := json.Unmarshal(playerJson, &s.Player); err != nil {
 		return err
+	}
+
+	if err := verifyValorantData(s); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func verifyValorantData(data *ValorantData) error {
+
+	ErrInvalidValorantData := "Invalid Valorant Data"
+
+	if data.Player.Data.Name == "" {
+		return errors.New(ErrInvalidValorantData)
+	}
+
+	if data.Player.Data.Tag == "" {
+		return errors.New(ErrInvalidValorantData)
+	}
+
+	if data.Player.Data.CurrentData.Elo == 0 {
+		return errors.New(ErrInvalidValorantData)
 	}
 
 	return nil

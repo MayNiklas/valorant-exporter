@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"errors"
 	"flag"
 	"log"
 	"net/http"
@@ -27,28 +26,6 @@ func main() {
 	})
 
 	log.Fatal(http.ListenAndServe(*listen+":"+*port, nil))
-}
-
-// check if ValorantData is valid
-func validate(data ValorantData) error {
-
-	// check if data.Player.Data.Name is empty
-	if err := data.Player.Data.Name; err == "" {
-		return errors.New("data.Player.Data.Name is empty")
-	}
-
-	// check if data.Player.Data.Tag is empty
-	if err := data.Player.Data.Tag; err == "" {
-		return errors.New("data.Player.Data.Tag is empty")
-	}
-
-	// check if data.Player.current.elo is 0
-	if err := data.Player.Data.CurrentData.Elo; err == 0 {
-		return errors.New("data.Player.Data.CurrentData.Elo is 0")
-	}
-
-	// if all checks are passed, return nil
-	return nil
 }
 
 func probeHandler(w http.ResponseWriter, r *http.Request) {
@@ -108,15 +85,8 @@ func probeHandler(w http.ResponseWriter, r *http.Request) {
 	var data ValorantData
 	if err := data.Fetch(target); err != nil {
 		// TODO better error handling
-		log.Println(err)
-		return
-	}
-
-	// check if data is valid
-	if err := validate(data); err != nil {
-		// TODO better error handling
-		log.Println(err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Println(err)
 		return
 	}
 
