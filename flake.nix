@@ -1,7 +1,10 @@
 {
   description = "valorant prometheus exporter";
 
-  inputs = { flake-utils.url = "github:numtide/flake-utils"; };
+  inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  };
 
   outputs = { self, nixpkgs, flake-utils, ... }:
 
@@ -123,7 +126,7 @@
             pname = "valorant-exporter";
             version = "1.0.0";
             src = self;
-            vendorSha256 =
+            vendorHash =
               "sha256-18sujNtNivEsgLyusu5TJLNaAV2paDCJnaXqJ/n+juM=";
             installCheckPhase = ''
               runHook preCheck
